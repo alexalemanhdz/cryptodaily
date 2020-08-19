@@ -1,0 +1,13 @@
+{
+  "name": "cryptodaily",
+  "version": "1.0.0",
+  "description": "it posts daily updates on selected cryptocurrencies.",
+  "main": "index.js",
+  "repository": "git@github.com:alexalemanhdz/cryptodaily.git",
+  "author": "alexalemanhdz",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "discord.js": "^12.3.1"
+  }
+}
