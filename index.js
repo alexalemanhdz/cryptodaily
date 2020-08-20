@@ -1,3 +1,4 @@
+const https = require('https');
 const Discord = require('discord.js');
 const Token = require('./token');
 
@@ -11,7 +12,19 @@ client.on('ready', () => {
 
 client.on('message', message => {
   if (message.content.match(regex)) {
-    message.channel.send('I\'m working on that. 🛠️');
+    const coin = message.content.substr(6).toLocaleLowerCase().replace(' ', '-');
+    https.get({
+      host: 'api.coingecko.com',
+      path: `/api/v3/coins/${coin}`,
+      headers: {
+        'accept': 'application/json',
+      },
+    }, res => {
+      res.setEncoding('utf8');
+      res.on('data', function (chunk) {
+        console.log(chunk);
+      });
+    });
   }
 })
 
