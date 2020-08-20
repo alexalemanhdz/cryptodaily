@@ -8,6 +8,7 @@ const regex = /^price\s/
 
 client.on('ready', () => {
   console.log('I am ready!');
+  client.user.setActivity('price', { type: 'LISTENING' });
 });
 
 client.on('message', message => {
