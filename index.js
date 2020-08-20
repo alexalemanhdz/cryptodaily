@@ -1,7 +1,6 @@
 const https = require('https');
 const Discord = require('discord.js');
 const Token = require('./token');
-const { request } = require('http');
 
 const client = new Discord.Client();
 const token = Token.token;
