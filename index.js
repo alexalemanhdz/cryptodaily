@@ -7,8 +7,6 @@ const client = new Discord.Client();
 const token = Token.token;
 const regex = /^price\s/
 
-const numberWithCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
 client.on('ready', () => {
   console.log('I am ready!');
 });
@@ -34,7 +32,7 @@ client.on('message', message => {
           const usdPrice = data.market_data.current_price.usd;
           const mxnPrice = data.market_data.current_price.mxn;
           const name = data.name;
-          message.channel.send(`Current price for ${name} is ${numberWithCommas(usdPrice)} USD or ${numberWithCommas(mxnPrice)} MXN!`);
+          message.channel.send(`Current price for ${name} is ${usdPrice} USD or ${mxnPrice} MXN!`);
         });
       }
       else {
