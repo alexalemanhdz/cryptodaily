@@ -1,6 +1,7 @@
 const https = require('https');
 const Discord = require('discord.js');
 const Token = require('./token');
+const { request } = require('http');
 
 const client = new Discord.Client();
 const token = Token.token;
@@ -12,7 +13,7 @@ client.on('ready', () => {
 
 client.on('message', message => {
   if (message.content.match(regex)) {
-    const coin = message.content.substr(6).toLocaleLowerCase().replace(' ', '-');
+    const coin = message.content.substr(6).toLocaleLowerCase().replace(/\s/g, '-');
     https.get({
       host: 'api.coingecko.com',
       path: `/api/v3/coins/${coin}`,
@@ -20,17 +21,23 @@ client.on('message', message => {
         'accept': 'application/json',
       },
     }, res => {
-      res.setEncoding('utf8');
-      let rawData = '';
-      res.on('data', d => {
-        rawData += d;
-      });
-      res.on('end', () => {
-        const data = JSON.parse(rawData);
-        const usdPrice = data.market_data.current_price.usd;
-        const mxnPrice = data.market_data.current_price.mxn;
-        message.channel.send(`Current price for ${coin} is ${usdPrice} USD or ${mxnPrice} MXN!`);
-      })
+      if (res.statusCode === 200) {
+        res.setEncoding('utf8');
+        let rawData = '';
+        res.on('data', d => {
+          rawData += d;
+        });
+        res.on('end', () => {
+          const data = JSON.parse(rawData);
+          const usdPrice = data.market_data.current_price.usd;
+          const mxnPrice = data.market_data.current_price.mxn;
+          const name = data.name;
+          message.channel.send(`Current price for ${name} is ${usdPrice} USD or ${mxnPrice} MXN!`);
+        });
+      }
+      else {
+        console.log('oops');
+      }
     });
   }
 })
