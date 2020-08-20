@@ -21,9 +21,16 @@ client.on('message', message => {
       },
     }, res => {
       res.setEncoding('utf8');
-      res.on('data', function (chunk) {
-        console.log(chunk);
+      let rawData = '';
+      res.on('data', d => {
+        rawData += d;
       });
+      res.on('end', () => {
+        const data = JSON.parse(rawData);
+        const usdPrice = data.market_data.current_price.usd;
+        const mxnPrice = data.market_data.current_price.mxn;
+        message.channel.send(`Current price for ${coin} is ${usdPrice} USD or ${mxnPrice} MXN!`);
+      })
     });
   }
 })
