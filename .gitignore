@@ -3,3 +3,7 @@ node_modules
 
 # discord token
 token.js
+channel.js
+
+# custom coins
+coins.js
