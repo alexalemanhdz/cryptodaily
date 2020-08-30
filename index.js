@@ -53,11 +53,11 @@ client.on('message', message => {
   }
 })
 
-const j = schedule.scheduleJob('0 0 10 * * *', () => {
+const j = schedule.scheduleJob('0 10 * * *', () => {
   coins.forEach(coinStr => coinRequest(coinStr, biz));
 });
 
-const k = schedule.scheduleJob('0 0 18 * * *', () => {
+const k = schedule.scheduleJob('0 18 * * *', () => {
   coins.forEach(coinStr => coinRequest(coinStr, biz));
 });
 
