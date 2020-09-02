@@ -1,1 +1,0 @@
-exports.localCurrencies = ["usd", "mxn"];
