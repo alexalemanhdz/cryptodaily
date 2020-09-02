@@ -1,5 +1,5 @@
 const https = require('https');
-const schedule = require('node-schedule');
+const cron = require('node-cron');
 const Discord = require('discord.js');
 const Token = require('./token');
 const Coins = require('./coins');
@@ -53,11 +53,7 @@ client.on('message', message => {
   }
 })
 
-const j = schedule.scheduleJob('0 10 * * *', () => {
-  coins.forEach(coinStr => coinRequest(coinStr, biz));
-});
-
-const k = schedule.scheduleJob('0 18 * * *', () => {
+cron.schedule('0 18 * * *', () => {
   coins.forEach(coinStr => coinRequest(coinStr, biz));
 });
 
