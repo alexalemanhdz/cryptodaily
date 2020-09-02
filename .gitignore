@@ -7,3 +7,6 @@ channel.js
 
 # custom coins
 coins.js
+
+# local currencies
+localCurrencies.js
