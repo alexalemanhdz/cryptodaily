@@ -14,6 +14,22 @@ const client = new Discord.Client();
 const regex = /^price\s/;
 let channelName = null;
 
+const applyText = (canvas, text) => {
+  const ctx = canvas.getContext('2d');
+
+  // Declare a base size of the font
+  let fontSize = 70;
+
+  do {
+    // Assign the font to the context and decrement it so it can be measured again
+    ctx.font = `${fontSize -= 2}px sans-serif`;
+    // Compare pixel width of the text to the canvas minus the approximate avatar size
+  } while (ctx.measureText(text).width > canvas.width - 250);
+
+  // Return the result to use in the actual canvas
+  return ctx.font;
+};
+
 const coinRequest = (coin, channel, label = 'Current') => {
   https.get({
     host: 'api.coingecko.com',
@@ -40,20 +56,23 @@ const coinRequest = (coin, channel, label = 'Current') => {
 
         const image = await Canvas.loadImage(data.image.large);
         ctx.drawImage(image, 20, 20, 160, 160);
-        
+
+        const price = data.market_data.current_price.usd;
+        const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        });
+
+        const messageStr = `${label} price for ${name} is ${formatter.format(price)}!`;
+
+        ctx.font = applyText(canvas, messageStr);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(messageStr, canvas.width / 3, canvas.height / 3);
+
         const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
 
-        localCurrencies.forEach((currency) => {
-          const price = data.market_data.current_price[currency];
-          const formatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: currency.toLocaleUpperCase(),
-          });
 
-          if (price) {
-            channel.send(`${label} price for ${name} is ${formatter.format(price)}!`, attachment);
-          }
-        });
+        channel.send(attachment);
       });
     }
     else {
