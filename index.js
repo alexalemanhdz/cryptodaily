@@ -4,7 +4,6 @@ const Discord = require('discord.js');
 const Canvas = require('canvas');
 const token = require('./token').token;
 const coins = require('./coins').coins;
-const localCurrencies = require('./localCurrencies').localCurrencies;
 const channelId = require('./channel').channel;
 
 const OPENING = 'Opening';
@@ -92,6 +91,10 @@ client.on('message', message => {
     const coinStr = message.content.substr(6).toLocaleLowerCase().replace(/\s/g, '-');
     coinRequest(coinStr, message.channel);
   }
+});
+
+cron.schedule('0 10 * * *', () => {
+  coins.forEach(coinStr => coinRequest(coinStr, channelName, OPENING));
 });
 
 cron.schedule('0 18 * * *', () => {
