@@ -68,8 +68,7 @@ const coinRequest = (coin, channel, label = 'Current') => {
         ctx.fillStyle = '#ffffff';
         ctx.fillText(messageStr, canvas.width / 3, canvas.height / 3);
 
-        const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
-
+        const attachment = new Discord.MessageAttachment(canvas.toBuffer(), `${name}.png`);
 
         channel.send(attachment);
       });
