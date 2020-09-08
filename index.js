@@ -100,4 +100,8 @@ cron.schedule('0 18 * * *', () => {
   coins.forEach(coinStr => coinRequest(coinStr, channelName, CLOSING));
 });
 
+cron.schedule('*/10 * * * *', () => {
+  client.user.setActivity('price', { type: 'LISTENING' });
+});
+
 client.login(token);
