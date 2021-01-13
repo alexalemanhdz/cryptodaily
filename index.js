@@ -56,10 +56,10 @@ const coinRequest = (coin, channel, label = 'Current') => {
         const image = await Canvas.loadImage(data.image.large);
         ctx.drawImage(image, 20, 20, 160, 160);
 
-        const price = data.market_data.current_price.usd;
+        const price = data.market_data.current_price.mxn;
         const formatter = new Intl.NumberFormat('en-US', {
           style: 'currency',
-          currency: 'USD',
+          currency: 'MXN',
         });
 
         const messageStr = `${label} price for ${name} is ${formatter.format(price)}!`;
